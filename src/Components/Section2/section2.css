@@ -1,0 +1,37 @@
+.section2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4.4rem;
+}
+.insection2{
+display: grid;
+grid-template-columns: auto auto;
+gap: 3rem;
+}
+.title{
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom:3.5rem;
+}
+.divisions{
+    background: #F8F9FD;
+    width: 33vw;
+    border-radius: 1rem;
+    padding: 2rem;
+}
+.divisions h2{
+    margin-bottom: 1rem;
+}
+@media(min-width:100px) and (max-width:700px){
+    .insection2{
+        display: grid;
+        grid-template-columns: auto;
+        }
+        .divisions{
+            width: 80vw;
+        }
+        .title{
+            text-align: center;
+        }
+}
