@@ -1,0 +1,36 @@
+.headingdetails{
+    height: 13vh;
+    background:rgba(248, 249, 253, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+.inheading{
+    width: 80vw;
+}
+.detailings{
+    display: flex;
+    justify-content: center;
+    margin: 2rem;
+}
+.indetailings{
+    width: 80vw;
+    display: flex;
+    flex-direction: column;
+    gap:1.5rem;
+    font-weight: 500;
+    font-size: 16px;
+}
+.vvv{
+    width: 60vw;
+    height: 30vh;
+    resize: none;
+}
+.upload{
+    width: 20rem;
+}
+.btnnn{
+    margin:2rem 0rem;
+}

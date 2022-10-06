@@ -19,6 +19,10 @@ gap: 3rem;
     width: 33vw;
     border-radius: 1rem;
     padding: 2rem;
+    cursor: pointer;
+}
+.divisions:hover{
+    box-shadow: 0px 0px 7px 0px gray;
 }
 .divisions h2{
     margin-bottom: 1rem;

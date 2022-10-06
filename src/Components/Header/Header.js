@@ -19,7 +19,7 @@ const Header = () => {
             allowing you to foster learning through competitions.
           </div>
           <div className="btndiv">
-            <button className="btn">Create Challenge</button>
+            <button className="btn" >Create Challenge</button>
           </div>
         </div>
         <div className="rocketimg">
