@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./ListPage.css";
 import Data from "../../../Data/Data.js";
 import Chip from "@mui/material/Chip";
@@ -28,17 +28,42 @@ const names2 = ["Easy", "Medium", "Hard"];
 
 const ListPage = () => {
   const [personName, setPersonName] = React.useState([]);
-
+  const [searchText, setSearchText] = useState("");
+  const [items, setItems] = useState(Data);
   useEffect(() => {
     {
       personName.map((val) => {
         updation(val);
-      })
+      });
     }
   }, [personName]);
 
-  const [searchText, setSearchText] = useState("");
-  const [items, setItems] = useState(Data);
+
+
+
+
+
+  const [timerdays, setTimerDays] = useState("0");
+  const [timerhours, setTimerHours] = useState("0");
+  const [timerminutes, setTimerMinutes] = useState("0");
+  const [timerseconds, setTimerSeconds] = useState("0");
+  
+
+
+  useEffect(() => {
+    // StartTimer(allottime);
+    return () => {
+      clearInterval(interval.current);
+    };
+  });
+
+  
+ let interval = useRef();
+
+
+
+
+
 
   const handlefilteration = (val) => {
     setSearchText(val);
@@ -60,16 +85,17 @@ const ListPage = () => {
       });
       setItems(filteredData);
     }
-
-}
-const updation = (categItem) => {
-  const updatedItems = Data.filter((currElem) => {
-    return currElem.status === categItem || currElem.level === categItem || currElem.all === categItem;
-  });
-  setItems(updatedItems);
-};
-
-
+  };
+  const updation = (categItem) => {
+    const updatedItems = Data.filter((currElem) => {
+      return (
+        currElem.status === categItem ||
+        currElem.level === categItem ||
+        currElem.all === categItem
+      );
+    });
+    setItems(updatedItems);
+  };
 
   const navigate = useNavigate();
   const handleparticipation = (e) => {
@@ -78,14 +104,11 @@ const updation = (categItem) => {
   };
 
   const handleChange = (event) => {
-
     const {
       target: { value },
     } = event;
     setPersonName(typeof value === "string" ? value.split(",") : value);
-      
   };
-
 
   return (
     <div className="ListPage">
@@ -112,14 +135,16 @@ const updation = (categItem) => {
                 <FormControl size="small" sx={{ m: 1, width: "20vw" }}>
                   <InputLabel>Filter</InputLabel>
                   <Select
-                    small
+                    // small
                     labelId="demo-multiple-checkbox-label"
                     id="demo-multiple-checkbox"
                     multiple
                     value={personName}
                     onChange={handleChange}
                     input={<OutlinedInput label="Tag" />}
-                    renderValue={(selected) => {selected.join(", ");}}
+                    renderValue={(selected) => {
+                      selected.join(", ");
+                    }}
                     // MenuProps={MenuProps}
                     style={{ background: "white" }}
                   >
@@ -131,7 +156,7 @@ const updation = (categItem) => {
                     <hr style={{ margin: "1rem" }} />
                     {names1.map((name) => (
                       <MenuItem key={name} value={name}>
-                        <Checkbox checked={personName.indexOf(name) > -1}/>
+                        <Checkbox checked={personName.indexOf(name) > -1} />
                         <ListItemText primary={name} />
                       </MenuItem>
                     ))}
@@ -181,7 +206,33 @@ const updation = (categItem) => {
       <div className="datashown">
         <div className="indatashown">
           {items.map((elem) => {
-            const { status, heading, time, image, level } = elem;
+
+const { status, heading, time, image, level, alottime } = elem;
+
+  var countdownDate = new Date('June 5, 2022 13:55:00').getTime();
+  interval = setInterval(() => {
+    var now = new Date().getTime();
+    var distance = countdownDate - now;
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    if (distance < 0) {
+      clearInterval(interval.current);
+    } 
+    else {
+      // var elems = document.getElementById('dayy');
+      // elems.innerHTML = days;
+      setTimerDays(days);
+      setTimerHours(hours);
+      setTimerMinutes(minutes);
+      setTimerSeconds(seconds);
+    }
+  }, 1000);
+
             return (
               <div className="cardsec">
                 <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
@@ -213,24 +264,32 @@ const updation = (categItem) => {
                         <span className="timertag">
                           <div>{time}</div>
                         </span>
-
-                        <div className="time">
-                          <div className="days">
-                            <div className="xx">00 </div>
-                            <div className="txt">Days</div>
+                        {timerhours === "0" &&
+                        timerdays === "0" &&
+                        timerminutes === "0" ? (
+                          <div className="time xx">{alottime}</div>
+                        ) : (
+                         
+                          <div className="time">
+                            <div className="days">
+                             
+                              <div className="xx" id="dayy">{timerdays}</div>
+                              <div className="txt">Days</div>
+                            </div>
+                            <span className="dots">:</span>
+                            <div className="days">
+                              <div className="xx">{timerhours}</div>
+                              <div className="txt">Hours</div>
+                            </div>
+                            <span className="dots">:</span>
+                            <div className="days">
+                              <div className="xx">{timerminutes}</div>
+                              <div className="txt">Mins</div>
+                            </div>
                           </div>
-                          <span className="dots">:</span>
-                          <div className="days">
-                            <div className="xx">00</div>
-                            <div className="txt">Hours</div>
-                          </div>
-                          <span className="dots">:</span>
-                          <div className="days">
-                            <div className="xx">00</div>
-                            <div className="txt">Mins</div>
-                          </div>
-                        </div>
+                        )}
                       </div>
+
                       <div className="btnn">
                         <Button
                           startIcon={<TaskAltIcon />}

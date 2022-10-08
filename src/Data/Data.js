@@ -1,4 +1,3 @@
-
 const Data = [
     {
         status:'Upcoming',
@@ -7,8 +6,7 @@ const Data = [
         image:"/CardsImage/Group 1000002466.png",
         level:'Easy',
         all:'All',
-        alottime:"19th October'22 09:00 PM"
-        // id,image,name,category,price,desc
+        alottime:"November 5, 2022 13:55:00"
     },
     {
         status:'Upcoming',
@@ -17,7 +15,7 @@ const Data = [
         image:"/CardsImage/Group 1000002766.png",
         level:'Medium',
         all:'All',
-        alottime:"16th May'22 09:00 PM"
+        alottime:"December 5, 2022 10:55:00"
 
     },
     {
@@ -27,7 +25,7 @@ const Data = [
         image:"/CardsImage/Group 1000002767.png",
         level:'Hard',
         all:'All',
-        alottime:"19th November'22 09:00 PM"
+        alottime:"October 16, 2022 11:55:00"
     },
     {
         status:'Active',
@@ -36,7 +34,7 @@ const Data = [
         image:"/CardsImage/Group 1000002771.png",
         level:'Easy',
         all:'All',
-        alottime:"17th December'22 09:00 PM"
+        alottime:"June 5, 2022 8:55:00"
     },
     {
         status:'Past',
@@ -45,7 +43,7 @@ const Data = [
         image:"/CardsImage/Group 1000002772.png",
         level:'Easy',
         all:'All',
-        alottime:"20th October'22 09:00 PM"
+        alottime:"November 5, 2022 7:35:00"
 
     },
     {
@@ -55,8 +53,7 @@ const Data = [
         image:"/CardsImage/Group 1000002773.png",
         level:'Hard',
         all:'All',
-        alottime:"19th October'22 09:00 PM"
+        alottime:"September 5, 2022 13:55:00"
     }
 ]
-
 export default Data;
