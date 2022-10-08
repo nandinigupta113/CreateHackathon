@@ -4,8 +4,17 @@ import group1 from '../../Assets/Group1000002515.svg'
 import group2 from '../../Assets/Group 1000002516.svg'
 import group3 from '../../Assets/Group 1000002518.svg'
 import Robotpic from "../../Assets/PicsArt_04-14-04.42 1.svg";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = (e) => {
+    e.preventDefault();
+    navigate("/CreateChallenge");
+  }
+
   return (
+
     <div className="Header">
       <div className="part1">
         <div className="in_part1">
@@ -19,7 +28,7 @@ const Header = () => {
             allowing you to foster learning through competitions.
           </div>
           <div className="btndiv">
-            <button className="btn" >Create Challenge</button>
+            <button className="btn" onClick={(e) =>{ handleNavigation(e)}}>Create Challenge</button>
           </div>
         </div>
         <div className="rocketimg">

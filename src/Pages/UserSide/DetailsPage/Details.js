@@ -4,7 +4,13 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import Navbar from "../../../Components/Navbar/Navbar";
 import Levelimg from "../../../Assets/carbon_skill-level-basic.svg";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 const Details = () => {
+  const navigate = useNavigate();
+  const handleediting= (e) => {
+    e.preventDefault();
+    navigate("/CreateChallenge");
+  }
   return (
     <div className="Details">
       <Navbar />
@@ -26,7 +32,7 @@ const Details = () => {
         <div className="inoverview">
           <div className="overtxt">Overview</div>
           <div className="ediit">
-            <Button variant="contained" color="success">
+            <Button variant="contained"onClick={(e) =>{ handleediting(e)}} color="success">
               Edit
             </Button>
             <Button variant="outlined" color="error">

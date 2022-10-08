@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./ListPage.css";
+import Data from "../../../Data/Data.js";
+import Chip from "@mui/material/Chip";
+import Box from "@mui/material/Box";
+import OutlinedInput from "@mui/material/OutlinedInput";
 import Header from "../../../Components/Header/Header";
 import Navbar from "../../../Components/Navbar/Navbar";
 import Section2 from "../../../Components/Section2/section2";
@@ -7,18 +11,82 @@ import SearchIcon from "@mui/icons-material/Search";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import Button from "@mui/material/Button";
 import { CardActionArea } from "@mui/material";
-import Card1 from "../../../Assets/CardsImage/Group 1000002466.png";
-import Card2 from "../../../Assets/CardsImage/Group 1000002766.png";
-import Card3 from "../../../Assets/CardsImage/Group 1000002767.png";
-import Card4 from "../../../Assets/CardsImage/Group 1000002771.png";
-import Card5 from "../../../Assets/CardsImage/Group 1000002772.png";
-import Card6 from "../../../Assets/CardsImage/Group 1000002773.png";
+import ListItemText from "@mui/material/ListItemText";
+import Checkbox from "@mui/material/Checkbox";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import { useNavigate } from "react-router-dom";
 import "./ListPage.css";
+
+const names1 = ["All", "Upcoming", "Past", "Active"];
+const names2 = ["Easy", "Medium", "Hard"];
+
 const ListPage = () => {
+  const [personName, setPersonName] = React.useState([]);
+
+  useEffect(() => {
+    {
+      personName.map((val) => {
+        updation(val);
+      })
+    }
+  }, [personName]);
+
+  const [searchText, setSearchText] = useState("");
+  const [items, setItems] = useState(Data);
+
+  const handlefilteration = (val) => {
+    setSearchText(val);
+    filterItem(val);
+  };
+
+  const filterItem = (categItem) => {
+    const lowerCaseValue = categItem.toLowerCase().trim();
+    if (!lowerCaseValue) {
+      setItems(Data);
+    } else {
+      const filteredData = Data.filter((currElem) => {
+        return Object.keys(currElem).some((key) => {
+          return currElem[key]
+            .toString()
+            .toLowerCase()
+            .includes(lowerCaseValue);
+        });
+      });
+      setItems(filteredData);
+    }
+
+}
+const updation = (categItem) => {
+  const updatedItems = Data.filter((currElem) => {
+    return currElem.status === categItem || currElem.level === categItem || currElem.all === categItem;
+  });
+  setItems(updatedItems);
+};
+
+
+
+  const navigate = useNavigate();
+  const handleparticipation = (e) => {
+    e.preventDefault();
+    navigate("/Details");
+  };
+
+  const handleChange = (event) => {
+
+    const {
+      target: { value },
+    } = event;
+    setPersonName(typeof value === "string" ? value.split(",") : value);
+      
+  };
+
+
   return (
     <div className="ListPage">
       <Navbar />
@@ -28,358 +96,160 @@ const ListPage = () => {
         <h1>Explore Challenges</h1>
         <div className="filterinput">
           <div>
-            <SearchIcon style={{ height: "2rem", width: "2rem" }} />
+            {/* <SearchIcon style={{ height: "2rem", width: "2rem" }} /> */}
           </div>
-          <div>
-            <input placeholder="Search" />
-            <select></select>
+          <div className="fff">
+            <div>
+              <input
+                style={{ width: "40vw" }}
+                onChange={(e) => handlefilteration(e.target.value)}
+                placeholder="Search"
+              />
+            </div>
+
+            <div className="filterdrop">
+              <div>
+                <FormControl size="small" sx={{ m: 1, width: "20vw" }}>
+                  <InputLabel>Filter</InputLabel>
+                  <Select
+                    small
+                    labelId="demo-multiple-checkbox-label"
+                    id="demo-multiple-checkbox"
+                    multiple
+                    value={personName}
+                    onChange={handleChange}
+                    input={<OutlinedInput label="Tag" />}
+                    renderValue={(selected) => {selected.join(", ");}}
+                    // MenuProps={MenuProps}
+                    style={{ background: "white" }}
+                  >
+                    <hr style={{ margin: "1rem" }} />
+                    <ListItemText
+                      style={{ marginLeft: "2rem" }}
+                      primary={"Status"}
+                    />
+                    <hr style={{ margin: "1rem" }} />
+                    {names1.map((name) => (
+                      <MenuItem key={name} value={name}>
+                        <Checkbox checked={personName.indexOf(name) > -1}/>
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                    <hr style={{ margin: "1rem" }} />
+                    <ListItemText
+                      style={{ marginLeft: "2rem" }}
+                      primary={"Level"}
+                    />
+                    <hr style={{ margin: "1rem" }} />
+                    {names2.map((name) => (
+                      <MenuItem key={name} value={name}>
+                        <Checkbox checked={personName.indexOf(name) > -1} />
+                        <ListItemText primary={name} />
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </div>
+            </div>
           </div>
         </div>
+        <div className="chips">
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              flexWrap: "wrap",
+              gap: 3,
+              marginTop: "1rem",
+            }}
+          >
+            {personName.map((value) => (
+              <Chip
+                sx={{
+                  fontSize: "1rem",
+                  height: "2.5rem",
+                  width: "fit-content",
+                }}
+                key={value}
+                label={value}
+              />
+            ))}
+          </Box>
+        </div>
       </div>
+
       <div className="datashown">
         <div className="indatashown">
-
-          <div className="cardsec">
-            <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={Card1}
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <span className="timing">
-                    <div>Upcoming</div>
-                  </span>
-                  <div className="timinghead">
-                    <h2>Data Science Bootcamp-Graded Datathon</h2>
-                  </div>
-                  <div className="timer">
-
-                    <span className="timertag">
-                      <div>Starts in</div>
-                    </span>
-
-                    <div className="time">
-                      <div className="days">
-                        <div className="xx">00 </div>
-                        <div className="txt">Days</div>
+          {items.map((elem) => {
+            const { status, heading, time, image, level } = elem;
+            return (
+              <div className="cardsec">
+                <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
+                  <CardActionArea>
+                    <CardMedia
+                      component="img"
+                      height="140"
+                      image={image}
+                      alt="green iguana"
+                    />
+                    <CardContent>
+                      <span
+                        className={
+                          status === "Upcoming"
+                            ? "timing"
+                            : status === "Past"
+                            ? "timi"
+                            : status === "Active"
+                            ? "tim"
+                            : "ti"
+                        }
+                      >
+                        <div>{status}</div>
+                      </span>
+                      <div className="timinghead">
+                        <h2>{heading}</h2>
                       </div>
-                      <span className="dots">:</span>
-                      <div className="days">
-                        <div className="xx">00</div>
-                        <div className="txt">Hours</div>
+                      <div className="timer">
+                        <span className="timertag">
+                          <div>{time}</div>
+                        </span>
+
+                        <div className="time">
+                          <div className="days">
+                            <div className="xx">00 </div>
+                            <div className="txt">Days</div>
+                          </div>
+                          <span className="dots">:</span>
+                          <div className="days">
+                            <div className="xx">00</div>
+                            <div className="txt">Hours</div>
+                          </div>
+                          <span className="dots">:</span>
+                          <div className="days">
+                            <div className="xx">00</div>
+                            <div className="txt">Mins</div>
+                          </div>
+                        </div>
                       </div>
-                      <span  className="dots">:</span>
-                      <div className="days">
-                        <div className="xx">00</div>
-                        <div className="txt">Mins</div>
+                      <div className="btnn">
+                        <Button
+                          startIcon={<TaskAltIcon />}
+                          variant="contained"
+                          color="success"
+                          onClick={(e) => {
+                            handleparticipation(e);
+                          }}
+                        >
+                          Participate Now
+                        </Button>
+                        <div></div>
                       </div>
-                    </div>
-
-                  </div>
-                  <div className="btnn">
-                    <Button
-                      startIcon={<TaskAltIcon />}
-                      variant="contained"
-                      color="success"
-                    >
-                      Participate Now
-                    </Button>
-                    <div></div>
-                  </div>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </div>
-
-
-          
-          <div className="cardsec">
-            <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={Card2}
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <span className="timing">
-                    <div>Upcoming</div>
-                  </span>
-                  <div className="timinghead">
-                    <h2>Data Science Bootcamp-Graded Datathon</h2>
-                  </div>
-                  <div className="timer">
-
-                    <span className="timertag">
-                      <div>Starts in</div>
-                    </span>
-
-                    <div className="time">
-                      <div className="days">
-                        <div className="xx">00 </div>
-                        <div className="txt">Days</div>
-                      </div>
-                      <span className="dots">:</span>
-                      <div className="days">
-                        <div className="xx">00</div>
-                        <div className="txt">Hours</div>
-                      </div>
-                      <span  className="dots">:</span>
-                      <div className="days">
-                        <div className="xx">00</div>
-                        <div className="txt">Mins</div>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div className="btnn">
-                    <Button
-                      startIcon={<TaskAltIcon />}
-                      variant="contained"
-                      color="success"
-                    >
-                      Participate Now
-                    </Button>
-                    <div></div>
-                  </div>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </div>
-
-
-          
-          <div className="cardsec">
-            <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={Card3}
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <span className="timing">
-                    <div>Upcoming</div>
-                  </span>
-                  <div className="timinghead">
-                    <h2>Data Science Bootcamp-Graded Datathon</h2>
-                  </div>
-                  <div className="timer">
-
-                    <span className="timertag">
-                      <div>Starts in</div>
-                    </span>
-
-                    <div className="time">
-                      <div className="days">
-                        <div className="xx">00 </div>
-                        <div className="txt">Days</div>
-                      </div>
-                      <span className="dots">:</span>
-                      <div className="days">
-                        <div className="xx">00</div>
-                        <div className="txt">Hours</div>
-                      </div>
-                      <span  className="dots">:</span>
-                      <div className="days">
-                        <div className="xx">00</div>
-                        <div className="txt">Mins</div>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div className="btnn">
-                    <Button
-                      startIcon={<TaskAltIcon />}
-                      variant="contained"
-                      color="success"
-                    >
-                      Participate Now
-                    </Button>
-                    <div></div>
-                  </div>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </div>
-
-
-          
-          <div className="cardsec">
-            <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={Card3}
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <span className="timing">
-                    <div>Upcoming</div>
-                  </span>
-                  <div className="timinghead">
-                    <h2>Data Science Bootcamp-Graded Datathon</h2>
-                  </div>
-                  <div className="timer">
-
-                    <span className="timertag">
-                      <div>Starts in</div>
-                    </span>
-
-                    <div className="time">
-                      <div className="days">
-                        <div className="xx">00 </div>
-                        <div className="txt">Days</div>
-                      </div>
-                      <span className="dots">:</span>
-                      <div className="days">
-                        <div className="xx">00</div>
-                        <div className="txt">Hours</div>
-                      </div>
-                      <span  className="dots">:</span>
-                      <div className="days">
-                        <div className="xx">00</div>
-                        <div className="txt">Mins</div>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div className="btnn">
-                    <Button
-                      startIcon={<TaskAltIcon />}
-                      variant="contained"
-                      color="success"
-                    >
-                      Participate Now
-                    </Button>
-                    <div></div>
-                  </div>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </div>
-
-
-          
-          <div className="cardsec">
-            <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={Card4}
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <span className="timing">
-                    <div>Upcoming</div>
-                  </span>
-                  <div className="timinghead">
-                    <h2>Data Science Bootcamp-Graded Datathon</h2>
-                  </div>
-                  <div className="timer">
-
-                    <span className="timertag">
-                      <div>Starts in</div>
-                    </span>
-
-                    <div className="time">
-                      <div className="days">
-                        <div className="xx">00 </div>
-                        <div className="txt">Days</div>
-                      </div>
-                      <span className="dots">:</span>
-                      <div className="days">
-                        <div className="xx">00</div>
-                        <div className="txt">Hours</div>
-                      </div>
-                      <span  className="dots">:</span>
-                      <div className="days">
-                        <div className="xx">00</div>
-                        <div className="txt">Mins</div>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div className="btnn">
-                    <Button
-                      startIcon={<TaskAltIcon />}
-                      variant="contained"
-                      color="success"
-                    >
-                      Participate Now
-                    </Button>
-                    <div></div>
-                  </div>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </div>
-
-
-          
-          <div className="cardsec">
-            <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
-              <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image={Card5}
-                  alt="green iguana"
-                />
-                <CardContent>
-                  <span className="timing">
-                    <div>Upcoming</div>
-                  </span>
-                  <div className="timinghead">
-                    <h2>Data Science Bootcamp-Graded Datathon</h2>
-                  </div>
-                  <div className="timer">
-
-                    <span className="timertag">
-                      <div>Starts in</div>
-                    </span>
-
-                    <div className="time">
-                      <div className="days">
-                        <div className="xx">00 </div>
-                        <div className="txt">Days</div>
-                      </div>
-                      <span className="dots">:</span>
-                      <div className="days">
-                        <div className="xx">00</div>
-                        <div className="txt">Hours</div>
-                      </div>
-                      <span  className="dots">:</span>
-                      <div className="days">
-                        <div className="xx">00</div>
-                        <div className="txt">Mins</div>
-                      </div>
-                    </div>
-
-                  </div>
-                  <div className="btnn">
-                    <Button
-                      startIcon={<TaskAltIcon />}
-                      variant="contained"
-                      color="success"
-                    >
-                      Participate Now
-                    </Button>
-                    <div></div>
-                  </div>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </div>
-
-
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
