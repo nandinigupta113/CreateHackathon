@@ -7,7 +7,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Header from "../../../Components/Header/Header";
 import Navbar from "../../../Components/Navbar/Navbar";
 import Section2 from "../../../Components/Section2/section2";
-import SearchIcon from "@mui/icons-material/Search";
+// import SearchIcon from "@mui/icons-material/Search";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -205,7 +205,7 @@ const ListPage = () => {
 
       <div className="datashown">
         <div className="indatashown">
-          {items.map((elem) => {
+          {items && items.length > 0 ? items.map((elem) => {
 
 const { status, heading, time, image, level, alottime } = elem;
 
@@ -308,7 +308,7 @@ const { status, heading, time, image, level, alottime } = elem;
                 </Card>
               </div>
             );
-          })}
+          }) : <div>No List Available</div>}
         </div>
       </div>
     </div>

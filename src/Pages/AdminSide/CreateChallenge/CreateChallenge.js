@@ -7,8 +7,15 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
+import Calender from '../../../Assets/uil_calender.svg';
+import TextFieldIcon from 'material-ui-textfield-icon';
 import Navbar from "../../../Components/Navbar/Navbar.js";
+import { minWidth } from "@mui/system";
+import { Icon } from "@mui/material";
+import { HelpOutline } from "@mui/icons-material";
+import Upload from '../../../Assets/bxs_cloud-upload.svg'
 const CreateChallenge = () => {
+  
   return (
     <div className="Create">
       <Navbar />
@@ -17,7 +24,8 @@ const CreateChallenge = () => {
       </div>
       <div className="detailings">
         <div className="indetailings">
-          <label>Challenge Name</label>
+        <label>Challenge Name</label>
+          <div className="txtbox">
           <TextField
             label="Challenge Name"
             id="outlined-size-small"
@@ -25,9 +33,13 @@ const CreateChallenge = () => {
             size="small"
             sx={{
               width:"40vw",
-            }}
+              minWidth:'300px'
+            }
+          }
           />
+          </div>
           <label>Start Date</label>
+          <div className="txtbox"> 
           <TextField
             label="Add Start Date"
             id="outlined-size-small"
@@ -35,9 +47,14 @@ const CreateChallenge = () => {
             size="small"
             sx={{
                 width:"40vw",
+                minWidth:'300px'
             }}
           />
+          <img src={Calender}/>
+          </div>
+
           <label>End Date</label>
+          <div className="txtbox"> 
           <TextField
             label="Add End Date"
             id="outlined-size-small"
@@ -45,12 +62,22 @@ const CreateChallenge = () => {
             size="small"
             sx={{
                 width:"40vw",
+                minWidth:'300px'
+
             }}
+
           />
+            <img src={Calender}/>
+          </div>
           <label>Description</label>
           <textarea className="vvv"></textarea>
           <label>Image</label>
-          <div>
+          <div className="imgupload">
+            <div className="upp">
+              <span>Upload</span>
+              <img src={Upload}/>
+            </div>
+            <div className="outuplaod">
             <input
               className="upload"
               type="file"
@@ -58,7 +85,10 @@ const CreateChallenge = () => {
               name="img"
               accept="image/*"
             />
+            </div>
+           
           </div>
+
           <label>Level Type</label>
 
           <Box sx={{ maxWidth: 300 }}>
@@ -69,9 +99,9 @@ const CreateChallenge = () => {
                 id="demo-simple-select"
                 label="Level"
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                <MenuItem value='Easy'>Easy</MenuItem>
+                <MenuItem value='Medium'>Medium</MenuItem>
+                <MenuItem value='Hard'>Hard</MenuItem>
               </Select>
             </FormControl>
           </Box>

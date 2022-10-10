@@ -27,10 +27,50 @@
     width: 60vw;
     height: 30vh;
     resize: none;
+    min-width: 300px;
 }
 .upload{
     width: 20rem;
 }
 .btnnn{
     margin:2rem 0rem;
+}
+.txtbox{
+    display: flex;
+}
+.txtbox img{
+    position: relative;
+    left: -50px;
+    margin: 1px;
+}
+.imgupload{
+    color: white;
+}
+.upp{
+    color:gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.5rem;
+    font-size: 1.3rem;
+    gap:10px;
+    width: 20vw;
+    min-width:280px;
+    background: #F4F4F4;
+    border: 1px solid  rgba(217, 217, 217, 1);
+    border-radius:0.4rem;
+    /* position: relative;
+    margin-bottom: -25px; */
+    cursor: pointer;
+}
+.outuplaod{
+    position: relative;
+    margin-top: -40px;
+    opacity: 0;}
+.upload{
+    width: 20vw;
+    min-width:280px;
+    height: 2.5rem; 
+    background-color: black;
+    width: 2px solid black;
 }
