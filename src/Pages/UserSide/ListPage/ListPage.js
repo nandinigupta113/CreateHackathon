@@ -22,11 +22,12 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import { useNavigate } from "react-router-dom";
 import "./ListPage.css";
-
+import { useLocation } from "react-router-dom";
 const names1 = ["All", "Upcoming", "Past", "Active"];
 const names2 = ["Easy", "Medium", "Hard"];
 
 const ListPage = () => {
+  const location = useLocation();
   const [personName, setPersonName] = React.useState([]);
   const [searchText, setSearchText] = useState("");
   const [items, setItems] = useState(Data);
@@ -39,16 +40,11 @@ const ListPage = () => {
   }, [personName]);
 
 
-
-
-
-
+  const [hackathon, setHackathon] = useState(location.item);
   const [timerdays, setTimerDays] = useState("0");
   const [timerhours, setTimerHours] = useState("0");
   const [timerminutes, setTimerMinutes] = useState("0");
   const [timerseconds, setTimerSeconds] = useState("0");
-  
-
 
   useEffect(() => {
     // StartTimer(allottime);
@@ -57,13 +53,7 @@ const ListPage = () => {
     };
   });
 
-  
- let interval = useRef();
-
-
-
-
-
+  let interval = useRef();
 
   const handlefilteration = (val) => {
     setSearchText(val);
@@ -98,9 +88,20 @@ const ListPage = () => {
   };
 
   const navigate = useNavigate();
-  const handleparticipation = (e) => {
+  const handleparticipation = (
+    e,
+    id,
+    time,
+    heading,
+    allottime,
+    details,
+    level
+  ) => {
     e.preventDefault();
-    navigate("/Details");
+    console.log(id);
+    navigate("/Details", {
+      state: { id, time, heading, allottime, details, level },
+    });
   };
 
   const handleChange = (event) => {
@@ -205,110 +206,131 @@ const ListPage = () => {
 
       <div className="datashown">
         <div className="indatashown">
-          {items && items.length > 0 ? items.map((elem) => {
+          {items && items.length > 0 ? (
+            items.map((elem) => {
+              const {
+                id,
+                status,
+                heading,
+                time,
+                image,
+                level,
+                alottime,
+                details,
+              } = elem;
 
-const { status, heading, time, image, level, alottime } = elem;
+              var countdownDate = new Date("June 5, 2022 13:55:00").getTime();
+              interval = setInterval(() => {
+                var now = new Date().getTime();
+                var distance = countdownDate - now;
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor(
+                  (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+                );
+                var minutes = Math.floor(
+                  (distance % (1000 * 60 * 60)) / (1000 * 60)
+                );
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-  var countdownDate = new Date('June 5, 2022 13:55:00').getTime();
-  interval = setInterval(() => {
-    var now = new Date().getTime();
-    var distance = countdownDate - now;
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor(
-      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                if (distance < 0) {
+                  clearInterval(interval.current);
+                } else {
+                  // var elems = document.getElementById('dayy');
+                  // elems.innerHTML = days;
+                  setTimerDays(days);
+                  setTimerHours(hours);
+                  setTimerMinutes(minutes);
+                  setTimerSeconds(seconds);
+                }
+              }, 1000);
 
-    if (distance < 0) {
-      clearInterval(interval.current);
-    } 
-    else {
-      // var elems = document.getElementById('dayy');
-      // elems.innerHTML = days;
-      setTimerDays(days);
-      setTimerHours(hours);
-      setTimerMinutes(minutes);
-      setTimerSeconds(seconds);
-    }
-  }, 1000);
-
-            return (
-              <div className="cardsec">
-                <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
-                  <CardActionArea>
-                    <CardMedia
-                      component="img"
-                      height="140"
-                      image={image}
-                      alt="green iguana"
-                    />
-                    <CardContent>
-                      <span
-                        className={
-                          status === "Upcoming"
-                            ? "timing"
-                            : status === "Past"
-                            ? "timi"
-                            : status === "Active"
-                            ? "tim"
-                            : "ti"
-                        }
-                      >
-                        <div>{status}</div>
-                      </span>
-                      <div className="timinghead">
-                        <h2>{heading}</h2>
-                      </div>
-                      <div className="timer">
-                        <span className="timertag">
-                          <div>{time}</div>
-                        </span>
-                        {timerhours === "0" &&
-                        timerdays === "0" &&
-                        timerminutes === "0" ? (
-                          <div className="time xx">{alottime}</div>
-                        ) : (
-                         
-                          <div className="time">
-                            <div className="days">
-                             
-                              <div className="xx" id="dayy">{timerdays}</div>
-                              <div className="txt">Days</div>
-                            </div>
-                            <span className="dots">:</span>
-                            <div className="days">
-                              <div className="xx">{timerhours}</div>
-                              <div className="txt">Hours</div>
-                            </div>
-                            <span className="dots">:</span>
-                            <div className="days">
-                              <div className="xx">{timerminutes}</div>
-                              <div className="txt">Mins</div>
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      <div className="btnn">
-                        <Button
-                          startIcon={<TaskAltIcon />}
-                          variant="contained"
-                          color="success"
-                          onClick={(e) => {
-                            handleparticipation(e);
-                          }}
+              return (
+                <div className="cardsec">
+                  <Card sx={{ maxWidth: 345, borderRadius: "1rem" }}>
+                    <CardActionArea>
+                      <CardMedia
+                        component="img"
+                        height="140"
+                        image={image}
+                        alt="green iguana"
+                      />
+                      <CardContent>
+                        <span
+                          className={
+                            status === "Upcoming"
+                              ? "timing"
+                              : status === "Past"
+                              ? "timi"
+                              : status === "Active"
+                              ? "tim"
+                              : "ti"
+                          }
                         >
-                          Participate Now
-                        </Button>
-                        <div></div>
-                      </div>
-                    </CardContent>
-                  </CardActionArea>
-                </Card>
-              </div>
-            );
-          }) : <div>No List Available</div>}
+                          <div>{status}</div>
+                        </span>
+                        <div className="timinghead">
+                          <h2>{heading}</h2>
+                        </div>
+                        <div className="timer">
+                          <span className="timertag">
+                            <div>{time}</div>
+                          </span>
+                          {timerhours === "0" &&
+                          timerdays === "0" &&
+                          timerminutes === "0" ? (
+                            <div className="time xx">{alottime}</div>
+                          ) : (
+                            <div className="time">
+                              <div className="days">
+                                <div className="xx" id="dayy">
+                                  {timerdays}
+                                </div>
+                                <div className="txt">Days</div>
+                              </div>
+                              <span className="dots">:</span>
+                              <div className="days">
+                                <div className="xx">{timerhours}</div>
+                                <div className="txt">Hours</div>
+                              </div>
+                              <span className="dots">:</span>
+                              <div className="days">
+                                <div className="xx">{timerminutes}</div>
+                                <div className="txt">Mins</div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="btnn">
+                          <Button
+                            startIcon={<TaskAltIcon />}
+                            variant="contained"
+                            color="success"
+                            onClick={(e) => {
+                              handleparticipation(
+                                e,
+                                id,
+                                time,
+                                heading,
+                                alottime,
+                                details,
+                                level
+                              );
+                            }}
+                          >
+                            Participate Now
+                          </Button>
+                          <div></div>
+                        </div>
+                      </CardContent>
+                    </CardActionArea>
+                  </Card>
+                </div>
+              );
+            })
+          ) : (
+            <div>No List Available</div>
+          )}
         </div>
       </div>
     </div>

@@ -1,16 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Details.css";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import Navbar from "../../../Components/Navbar/Navbar";
 import Levelimg from "../../../Assets/carbon_skill-level-basic.svg";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import Data from '../../../Data/Data.js';
 const Details = () => {
+  const location = useLocation();
   const navigate = useNavigate();
+  const [id, setid] = useState(location.state.id);
+  const [time, setTime] = useState(location.state.time)
+  const [heading, setHeading] = useState(location.state.heading)
+  const [allottime, setAllottime] = useState(location.state.allottime)
+  const [details, setDetails] = useState(location.state.details)
+  const [level, setLevel] = useState(location.state.level)
+
+  const handledelete = (e) => {
+    e.preventDefault();
+    var index = Data.map((elem) => {
+      return elem.id
+    }).indexOf(id);
+    Data.splice(index,1);
+    navigate('/');
+  }
+
+
   const handleediting= (e) => {
     e.preventDefault();
     navigate("/CreateChallenge");
+    console.log(location);
   }
+
   return (
     <div className="Details">
       <Navbar />
@@ -18,13 +40,13 @@ const Details = () => {
         <div className="insidedetails">
           <div className="mentiontym">
             <AccessTimeIcon />
-            <span>Starts on 17th Jun'22 09:00 PM (India Standard Time)</span>
+            <span>{time}&nbsp; {allottime} (India Standard Time)</span>
           </div>
-          <h1>Data Sprint 72 - Butterfly Identification</h1>
-          <p>Identify the class to which each butterfly belongs to</p>
+          <h1>{heading}</h1>
+          <p>{details}</p>
           <div className="level">
             <img src={Levelimg} />
-            <span>Easy</span>
+            <span>{level}</span>
           </div>
         </div>
       </div>
@@ -32,10 +54,10 @@ const Details = () => {
         <div className="inoverview">
           <div className="overtxt">Overview</div>
           <div className="ediit">
-            <Button variant="contained"onClick={(e) =>{ handleediting(e)}} color="success">
+            <Button variant="contained"onClick={handleediting} color="success">
               Edit
             </Button>
-            <Button variant="outlined" color="error">
+            <Button variant="outlined" color="error" onClick={handledelete}>
               Delete
             </Button>
           </div>
