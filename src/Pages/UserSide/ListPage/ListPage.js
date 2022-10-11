@@ -95,12 +95,13 @@ const ListPage = () => {
     heading,
     allottime,
     details,
-    level
+    level,
+    image
   ) => {
     e.preventDefault();
     console.log(id);
     navigate("/Details", {
-      state: { id, time, heading, allottime, details, level },
+      state: { id, time, heading, allottime, details, level,image },
     });
   };
 
@@ -314,7 +315,8 @@ const ListPage = () => {
                                 heading,
                                 alottime,
                                 details,
-                                level
+                                level,
+                                image
                               );
                             }}
                           >

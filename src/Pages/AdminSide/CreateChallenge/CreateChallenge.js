@@ -134,7 +134,7 @@ const CreateChallenge = () => {
           <textarea className="vvv"  value={desc}
             onChange={(e) => setDesc(e.target.value)} ></textarea>
           <label>Image</label>
-          <div className="hhhhh">
+          <div className="hhhh">
           <img src={img} alt=''/>
           </div>
           <div className="imgupload">
@@ -148,7 +148,7 @@ const CreateChallenge = () => {
               onChange={onImageChange}
             />
             </div>
-            <div className="upp">
+            <div className="uppp">
               <span>Upload</span>
               <img src={Upload}/>
             </div>

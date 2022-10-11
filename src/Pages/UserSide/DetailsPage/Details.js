@@ -16,6 +16,7 @@ const Details = () => {
   const [allottime, setAllottime] = useState(location.state.allottime)
   const [details, setDetails] = useState(location.state.details)
   const [level, setLevel] = useState(location.state.level)
+  const [image, setImage] = useState(location.state.image)
 
   const handledelete = (e) => {
     e.preventDefault();
@@ -29,7 +30,9 @@ const Details = () => {
 
   const handleediting= (e) => {
     e.preventDefault();
-    navigate("/CreateChallenge");
+    navigate("/Editdetails", {
+      state: { id, time, heading, allottime, details, level,image },
+    });
     console.log(location);
   }
 
