@@ -7,13 +7,12 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import Header from "../../../Components/Header/Header";
 import Navbar from "../../../Components/Navbar/Navbar";
 import Section2 from "../../../Components/Section2/section2";
-// import SearchIcon from "@mui/icons-material/Search";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import TaskAltIcon from "@mui/icons-material/TaskAlt";
 import Button from "@mui/material/Button";
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, ListItem } from "@mui/material";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import InputLabel from "@mui/material/InputLabel";
@@ -37,10 +36,9 @@ const ListPage = () => {
         updation(val);
       });
     }
-  }, [personName]);
+  });
 
-
-  const [hackathon, setHackathon] = useState(location.item);
+  // const [hackathon, setHackathon] = useState(location.item);
   const [timerdays, setTimerDays] = useState("0");
   const [timerhours, setTimerHours] = useState("0");
   const [timerminutes, setTimerMinutes] = useState("0");
@@ -58,6 +56,18 @@ const ListPage = () => {
   const handlefilteration = (val) => {
     setSearchText(val);
     filterItem(val);
+  };
+
+  const handleDelete = (val) => {
+    var index = personName
+      .map((elem) => {
+        return elem;
+      })
+      .indexOf(val.key);
+      console.log(index);
+    personName.splice(index, 1);
+    console.log(personName);
+    console.log(val);
   };
 
   const filterItem = (categItem) => {
@@ -85,6 +95,7 @@ const ListPage = () => {
       );
     });
     setItems(updatedItems);
+    // console.log(items);
   };
 
   const navigate = useNavigate();
@@ -101,7 +112,7 @@ const ListPage = () => {
     e.preventDefault();
     console.log(id);
     navigate("/Details", {
-      state: { id, time, heading, allottime, details, level,image },
+      state: { id, time, heading, allottime, details, level, image },
     });
   };
 
@@ -190,17 +201,23 @@ const ListPage = () => {
               marginTop: "1rem",
             }}
           >
-            {personName.map((value) => (
-              <Chip
-                sx={{
-                  fontSize: "1rem",
-                  height: "2.5rem",
-                  width: "fit-content",
-                }}
-                key={value}
-                label={value}
-              />
-            ))}
+            {personName.map((value) =>
+              value !== "" ? (
+                   <Chip
+                  sx={{
+                    fontSize: "1rem",
+                    height: "2.5rem",
+                    width: "fit-content",
+                  }}
+                  key={value}
+                  label={value}
+                  onDelete={(value) =>{console.log({value}); handleDelete(value)}}
+                />
+               
+              ) : (
+                ""
+              )
+            )}
           </Box>
         </div>
       </div>

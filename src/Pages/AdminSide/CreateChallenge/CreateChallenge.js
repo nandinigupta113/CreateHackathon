@@ -17,6 +17,12 @@ import Upload from '../../../Assets/bxs_cloud-upload.svg'
 import { useNavigate } from "react-router-dom";
 import Data from '../../../Data/Data.js';
 import uuid from 'react-uuid';
+import dayjs from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+
+
 // const getDatafromLS = () => {
 //   const data = localStorage.getItem('challenge');
 //   if(data){
@@ -31,10 +37,11 @@ const CreateChallenge = () => {
   let navigate = useNavigate();
   const [hackathon, setHackathon] = useState(['']);
   const [name, setName] = useState('');
-  const [startdate, setStartdate] = useState('');
-  const [enddate, setEnddate] = useState('');
+  const [startdate, setStartdate] = useState(dayjs('2022-04-07'));
+  const [enddate, setEnddate] = useState(dayjs('2022-04-07'));
   const [desc, setDesc] = useState('');
   const [level, setLevel] = useState('');
+
 
   const handlesubmit = (e) => {
     e.preventDefault();
@@ -48,15 +55,16 @@ const CreateChallenge = () => {
       image:img,
       level:level,
       all:'all',
-      alottime:startdate,
+      alottime:(startdate.$d).toString(),
       details:desc
     }
     setHackathon([...hackathon,hack]);
     setName('');
-    setStartdate('');
-    setEnddate('');
+    setStartdate(dayjs());
+    setEnddate(dayjs());
     setDesc('');
     setLevel('');
+    console.log((startdate.$d).toString())
     localStorage.setItem('challenge', hackathon);
     Data.push(hack);
     navigate('/');
@@ -82,7 +90,9 @@ const CreateChallenge = () => {
       <div className="detailings">
         <div className="indetailings">
         <label>Challenge Name</label>
+
           <div className="txtbox">
+    
           <TextField
             label="Challenge Name"
             id="outlined-size-small"
@@ -96,9 +106,28 @@ const CreateChallenge = () => {
             onChange={(e) => setName(e.target.value)}          
           />
           </div>
+
+
           <label>Start Date</label>
           <div className="txtbox"> 
-          <TextField
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DateTimePicker
+        renderInput={(props) => <TextField 
+          sx={{
+            width:"40vw",
+            minWidth:'300px'
+        }}
+        size="small"
+          {...props} />}
+        label="Add Start date"
+      value={startdate.$d}
+      onChange={(e) => setStartdate(e)}
+
+      />
+    </LocalizationProvider>
+
+          {/* <TextField
             label="Add Start Date"
             id="outlined-size-small"
             defaultValue=""
@@ -110,12 +139,30 @@ const CreateChallenge = () => {
             value={startdate}
             onChange={(e) => setStartdate(e.target.value)}
           />
-          <img src={Calender}/>
+          <img src={Calender}/> */}
+
+
           </div>
 
           <label>End Date</label>
           <div className="txtbox"> 
-          <TextField
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DateTimePicker
+        renderInput={(props) => <TextField 
+          sx={{
+            width:"40vw",
+            minWidth:'300px'
+        }}
+        size="small"
+          {...props} />}
+        label="Add End date"
+        value={enddate.$d}
+        onChange={(e) => setEnddate(e)}
+
+      />
+    </LocalizationProvider>
+
+          {/* <TextField
             label="Add End Date"
             id="outlined-size-small"
             defaultValue=""
@@ -128,7 +175,7 @@ const CreateChallenge = () => {
             value={enddate}
             onChange={(e) => setEnddate(e.target.value)}
           />
-          <img  src={Calender}/>
+          <img  src={Calender}/> */}
           </div>
           <label>Description</label>
           <textarea className="vvv"  value={desc}

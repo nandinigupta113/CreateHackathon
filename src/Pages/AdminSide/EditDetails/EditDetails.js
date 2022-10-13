@@ -15,9 +15,17 @@ import { useLocation } from "react-router-dom";
 import uplimg from '../../../Assets/bi_image-fill.svg';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import Data from '../../../Data/Data.js';
+import dayjs from 'dayjs';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+
+
+
 const EditDetails = () => {
   const location = useLocation();
   let navigate = useNavigate();
+  // const [value, setValue] = React.useState(dayjs('2022-04-07'));
 
 
   const [id, setid] = useState(location.state.id);
@@ -67,6 +75,10 @@ const EditDetails = () => {
         <div className="indetailings">
         <label>Challenge Name</label>
           <div className="txtbox">
+
+
+        
+
           <TextField
             label="Challenge Name"
             id="outlined-size-small"
@@ -82,6 +94,29 @@ const EditDetails = () => {
           </div>
           <label>Start Date</label>
           <div className="txtbox"> 
+
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DateTimePicker
+        renderInput={(props) => <TextField
+          size="small"
+          sx={{
+          width:"40vw",
+          minWidth:'300px'
+      }}
+      {...props} />}
+        label="Add Start Date"
+        
+      value={allottime}
+      onChange={(e) => setAllottime(e.target.value)}
+        
+      />
+    </LocalizationProvider>
+
+
+
+
+
+{/* 
           <TextField
             label="Add Start Date"
             id="outlined-size-small"
@@ -94,12 +129,32 @@ const EditDetails = () => {
             value={allottime}
             onChange={(e) => setAllottime(e.target.value)}
           />
-          <img src={Calender}/>
+ */}
+
+
+          {/* <img src={Calender}/> */}
           </div>
 
           <label>End Date</label>
           <div className="txtbox"> 
-          <TextField
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <DateTimePicker
+        renderInput={(props) => <TextField
+          size="small"
+          sx={{
+          width:"40vw",
+          minWidth:'300px'
+      }}
+      {...props} />}
+        label="Add End Date"
+        
+      value={allottime}
+      onChange={(e) => setAllottime(e.target.value)}
+        
+      />
+    </LocalizationProvider>
+
+          {/* <TextField
             label="Add End Date"
             id="outlined-size-small"
             defaultValue=""
@@ -111,8 +166,8 @@ const EditDetails = () => {
             }}
             value={allottime}
             onChange={(e) => setAllottime(e.target.value)}
-          />
-          <img  src={Calender}/>
+          /> */}
+          {/* <img  src={Calender}/> */}
           </div>
           <label>Description</label>
           <textarea className="vvv"  value={details}
