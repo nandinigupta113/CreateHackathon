@@ -48,7 +48,7 @@ const EditDetails = () => {
     let a = Data[index];
     a.heading = heading;
     a.details = details;
-    a.alottime = allottime;
+    a.alottime = (allottime.$d).toString();
     a.image = image;
     a.level = level;
   
@@ -89,8 +89,9 @@ const EditDetails = () => {
             }}
             defaultValue=""
             value={heading}
-            onChange={(e) => setHeading(e.target.value)}          
+            onChange={(e) => setHeading(e)}          
           />
+
           </div>
           <label>Start Date</label>
           <div className="txtbox"> 
@@ -107,7 +108,7 @@ const EditDetails = () => {
         label="Add Start Date"
         
       value={allottime}
-      onChange={(e) => setAllottime(e.target.value)}
+      onChange={(e) => setAllottime(e)}
         
       />
     </LocalizationProvider>
@@ -149,7 +150,7 @@ const EditDetails = () => {
         label="Add End Date"
         
       value={allottime}
-      onChange={(e) => setAllottime(e.target.value)}
+      onChange={(e) => setAllottime(e)}
         
       />
     </LocalizationProvider>
